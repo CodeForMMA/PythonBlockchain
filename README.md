@@ -1,6 +1,6 @@
 # README
 
-A sample blockchain implementation of a conceptual blockchain using Python.
+A sample implementation of a conceptual blockchain using Python.
 
 ## Contents
 
