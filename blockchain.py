@@ -1,10 +1,3 @@
-# Creates a class named blockchain with two methods
-# hash_block() method encodes a block into array of bytes and then hashes it; you need to ensure that the dictionary is sorted, or you'll have inconsistent hashes later on
-# __init__() function is the constructor for the class. Here, you store the entire blockchain as a list. 
-# Because every blockchain as genesis block, you need to initialise the genesis block with the hash of the previous block, and in this example, 
-# we simply used a fixed string called "genesis_block" to obtain the hash.
-# Once the hash of the previous block is found, we need to find the nonce for the block using the method named proof_of_work()
-
 import sys
 
 import hashlib
@@ -21,6 +14,13 @@ from urllib.parse import urlparse
 class Blockchain(object):
 
     difficulty_target = "0000"
+
+# Creates a class named blockchain with two methods
+# hash_block() method encodes a block into array of bytes and then hashes it; you need to ensure that the dictionary is sorted, or you'll have inconsistent hashes later on
+# __init__() function is the constructor for the class. Here, you store the entire blockchain as a list. 
+# Because every blockchain as genesis block, you need to initialise the genesis block with the hash of the previous block, and in this example, 
+# we simply used a fixed string called "genesis_block" to obtain the hash.
+# Once the hash of the previous block is found, we need to find the nonce for the block using the method named proof_of_work()
 
     def hash_block(self, block):
         block_encoded = json.dumps(block, sort_keys=True).encode()
