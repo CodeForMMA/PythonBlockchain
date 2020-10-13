@@ -26,7 +26,7 @@ class Blockchain(object):
         block_encoded = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(block_encoded).hexdigest()
         
-    def def __init__(self):
+    def __init__(self):
         # stores all the blocks in the entire blockchain
         self.chain = [] 
         # temporarily stores the transcations for the current block
@@ -37,4 +37,15 @@ class Blockchain(object):
             hash_of_previous_block = genesis_block,
             nonce = self.proof_of_work(0, genesis_hash, [])
         )
+
+    # Use PoW to find the nonce for the current block
+    def proof_of_work (self, index, hash_of_previous_block, transcations):
+        # try with nonce = 0
+        nonce = 0
+        
+        # try hashing the nonce together with the hash of the previous block until its valid
+        while self.valid_proof(index, hash_of_previous_block, transcations, nonce) is False:
+            nonce += 1
+            
+        return nonce
 
