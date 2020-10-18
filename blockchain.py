@@ -83,7 +83,7 @@ class Blockchain(object):
         # Gets the index of the last block in the blockchain and adds one to it
         # New index will be the block that the current transcation will be added to
         
-        self.current_transactions.apped({
+        self.current_transactions.append({
             'amount' : amount,
             'recipient' : recipient,
             'sender' : sender
@@ -123,7 +123,6 @@ def mine_block():
         recipient=node_identifier,
         amount=1,
     )
-
     # Hash of the last block in the blockchain
     last_block_hash = blockchain.hash_block(blockchain.last_block)
 
