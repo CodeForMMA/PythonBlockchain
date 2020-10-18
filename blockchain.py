@@ -96,6 +96,74 @@ class Blockchain(object):
         return self.chain[-1]
 
     
+app = Flask(__name__)
+
+# Generate a globally unique address for this node
+node_identifier = str(uuid4()).replace('-', "")
+
+# instantiate the Blockchain
+blockchain = Blockchain()
+
+# Return the entire blockchain
+# This a route to access the blockchain
+@app.route('/blockchain', methods=['GET'])
+def full_chain():
+    response = {
+        'chain' : blockchain.chain,
+        'length' : len(blockchain.chain),
+    }
+    return jsonify(response), 200
+
+# Route for mining
+# Once the nonce is found, the block will be appended to the blockchain
+@app.route('/mine', methods=['GET'])
+def mine_block():
+    blockchain.add_transaction(
+        sender="0",
+        recipient=node_identifier,
+        amount=1,
+    )
+
+    # Hash of the last block in the blockchain
+    last_block_hash = blockchain.hash_block(blockchain.last_block)
+
+    # PoW, get the nonce for the new block to be added to the blockchain
+    index = len(blockchain.chain)
+    nonce = blockchain.proof_of_work(index, last_block_hash, blockchain.current_transcations)
+    
+    # Add the new block to the blockchain using the last block hash and current nonce
+    block = blockchain.append_block(nonce, last_block_hash)
+    reponse = {
+        'message' : "New Block Mined",
+        'index' : block['index'],
+        'hash_of_previous_block' : block['hash_of_previous_block'],
+        'nonce' : block['nonce'],
+        'transactions':block['transactions'],
+    }
+    return (jsonify(reponse), 200)
+
+# Transactions
+@app.route('/transactions/new', methods = ['POST'])
+def new_transactions():
+    # Get the value passed in from the client 
+    values = request.get_json()
+    
+    # Check that the required fields are in the POST'd data
+    required_field = ['sender', 'recipient', 'amount']
+    if not all(k in values for k in required_fields):
+        return ('Missing Fields', 400)
+    
+    # Create a new Transaction
+    index = blockchain.add_transaction(
+        values['sender'],
+        values['recipient'],
+        values['amount']
+    )
+
+    response = {'message': f"Transaction will be added to Block {index}"}
+    return (jsonify(reponse), 201)
+
+
 
     
 
