@@ -24,3 +24,7 @@ that can be execute on the CLI
 `$ curl -X POST -H "Content-Type: application/json" -d '{args} http://localhost:5000/transactions/new` 
 - Allows you to add a transactions to the blockchain, given that
 the arguments are correct.
+
+## TODO
+
+Intergrate into the Ethernet 
