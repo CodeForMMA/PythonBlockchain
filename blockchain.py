@@ -101,8 +101,6 @@ class Blockchain(object):
     def last_block(self):
         # returns the last block in the blockchain
         return self.chain[-1]
-
-    
 app = Flask(__name__)
 
 # Generate a globally unique address for this node
